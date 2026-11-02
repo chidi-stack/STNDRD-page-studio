@@ -1,0 +1,99 @@
+/* STNDRD Page Studio — design tokens.
+   Two layers: (1) app chrome (the builder UI), (2) published landing-page sections. */
+
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+/* Rational Display is licensed — self-host the woff2:
+@font-face { font-family: "Rational Display"; src: url("/fonts/RationalDisplay-SemiBold.woff2") format("woff2"); font-weight: 600; font-display: swap; } */
+
+:root {
+  /* ---------- App chrome ---------- */
+  --font-heading: "Rational Display", "Satoshi", system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: "Satoshi", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --color-bg: #efede8;          /* warm off-white app ground */
+  --color-surface: #ffffff;     /* cards, top bar, inputs */
+  --color-text: #161614;
+  --color-divider: #e2dfd8;
+
+  --color-neutral-100: #f7f6f3;
+  --color-neutral-200: #ecebe6;
+  --color-neutral-300: #dedbd3;
+  --color-neutral-400: #c4c0b6;
+  --color-neutral-500: #a19d93;
+  --color-neutral-600: #7f7b72;
+  --color-neutral-700: #5f5c55;
+  --color-neutral-800: #3f3d39;
+  --color-neutral-900: #262523;
+
+  --color-accent: #ffd21f;      /* STNDRD yellow */
+  --color-accent-100: #fff8d6;
+  --color-accent-200: #fff0a8;
+  --color-accent-300: #ffe670;
+  --color-accent-400: #ffd21f;
+  --color-accent-500: #f2c500;  /* hover on yellow */
+  --color-accent-600: #d4aa00;
+  --color-accent-700: #7a5c00;  /* yellow-family text on light (links) */
+  --color-accent-800: #594300;
+  --color-accent-900: #3a2c00;
+
+  --color-danger: #c4361d;
+  --color-danger-100: #fdece8;
+  --color-success: #1d7444;
+  --color-success-100: #e2f5e8;
+  --color-info: #2a4cc0;
+  --color-info-100: #e6edff;
+
+  /* Sidebar (dark) */
+  --sidebar-bg: #1b1b19;
+  --sidebar-fg: #f2f1ec;
+  --sidebar-muted: #9c9a92;
+  --sidebar-item-active: #2c2c29;
+  --sidebar-card-bg: #262624;
+  --sidebar-card-border: #34342f;
+  --sidebar-avatar: #3a3a36;
+
+  --radius-xs: 6px;   /* small buttons, thumbnails, seg options */
+  --radius-sm: 8px;   /* buttons, nav items */
+  --radius-md: 10px;  /* cards, rows, KPI tiles */
+  --radius-lg: 14px;  /* dialogs, big panels */
+  --radius-pill: 999px;
+
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+
+  --shadow-sm: 0 1px 2px rgba(22,22,20,0.06);
+  --shadow-md: 0 4px 14px rgba(22,22,20,0.08);
+  --shadow-lg: 0 16px 40px rgba(22,22,20,0.14);
+
+  --sidebar-width: 228px;
+  --topbar-height: 56px;
+  --content-max: 1240px;
+
+  /* ---------- Landing-page sections (published site) ---------- */
+  --lp-font-display: "Oswald", sans-serif;   /* uppercase headings, buttons */
+  --lp-font-body: "Manrope", system-ui, sans-serif;
+  --lp-accent: #ffd21f;
+  --lp-btn-radius: 6px;
+  --lp-card-radius: 14px;
+  --lp-card-radius-lg: 18px;
+}
+
+/* Landing themes — apply on the page root */
+.lp-dark {
+  --lp-bg: #0b0b0b; --lp-surface: #161615; --lp-fg: #f5f3ee; --lp-muted: #a8a59d;
+  --lp-accent-text: #ffd21f; --lp-accent-fg: #0b0b0b; --lp-accent-soft: rgba(255,210,31,0.12);
+  --lp-line: rgba(255,255,255,0.12);
+}
+.lp-light {
+  --lp-bg: #ffffff; --lp-surface: #f4f4f2; --lp-fg: #0b0b0b; --lp-muted: #5c5a55;
+  --lp-accent-text: #0b0b0b; --lp-accent-fg: #0b0b0b; --lp-accent-soft: #fff4c2;
+  --lp-line: #e4e2dc;
+}
+
+/* Base + states */
+body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+a { color: var(--color-accent-700); } a:hover { color: var(--color-accent-800); }
+:focus-visible { outline: 2px solid var(--color-text); outline-offset: 2px; }

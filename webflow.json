@@ -1,0 +1,18 @@
+{
+  "siteId": "68a822ab60d65fba371458e2",
+  "devlink-export": {
+    "rootDir": "./webflow",
+    "components": "section_coach",
+    "componentGroups": "sections2",
+    "ts": true,
+    "cssScopes": true,
+    "relativeHrefRoot": "/"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1792100927973,
+      "version": "1.19.0"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+/* Fonts */
+
+@import url("https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700|Sora:300,400,500,600,700&subset=latin");
+
+@font-face {
+  font-family: "Tungsten";
+  src: url("https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/68a82858d678e457bcc9257b_Tungsten-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaNeueLight";
+  src: url("https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/68a8280a4362218dd457924a_HelveticaNeueLight.otf")
+    format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaNeueMedium";
+  src: url("https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/68a8280a32deeb7045cf9700_HelveticaNeueMedium.otf")
+    format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "elveticaNeueRoman";
+  src: url("https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/68a8280a4d4fded2da33d5b8_HelveticaNeueRoman.otf")
+    format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaNeueThin";
+  src: url("https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/68a8280adcb5565790c28b6f_HelveticaNeueThin.otf")
+    format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaNeueBold";
+  src: url("https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/68a8280aef62986b156a9d51_HelveticaNeueBold.otf")
+    format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rigid_Square_Bold";
+  src: url("https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/68a870416cca92a29a721d26_fonnts.com-Rigid_Square_Bold.otf")
+    format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Compressed";
+  src: url("https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6915bf41429d08e775d07bed_helvetica-compressed-5871d14b6903a.otf")
+      format("opentype"),
+    url("https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6915bf41429d08e775d07bed_helvetica-compressed-5871d14b6903a.otf")
+      format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

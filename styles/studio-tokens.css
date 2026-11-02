@@ -1,0 +1,49 @@
+/* STNDRD Page Studio — app chrome tokens (from design handoff) */
+
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  --font-heading: "Satoshi", system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: "Satoshi", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --color-bg: #efede8;
+  --color-surface: #ffffff;
+  --color-text: #161614;
+  --color-divider: #e2dfd8;
+
+  --color-neutral-100: #f7f6f3;
+  --color-neutral-200: #ecebe6;
+  --color-neutral-600: #7f7b72;
+  --color-neutral-700: #5f5c55;
+
+  --color-accent: #ffd21f;
+  --color-accent-500: #f2c500;
+  --color-accent-700: #7a5c00;
+
+  --color-danger: #c4361d;
+  --color-danger-100: #fdece8;
+  --color-success: #1d7444;
+  --color-success-100: #e2f5e8;
+  --color-info: #2a4cc0;
+  --color-info-100: #e6edff;
+
+  --sidebar-bg: #1b1b19;
+  --sidebar-fg: #f2f1ec;
+  --sidebar-muted: #9c9a92;
+  --sidebar-item-active: #2c2c29;
+  --sidebar-card-bg: #262624;
+  --sidebar-card-border: #34342f;
+  --sidebar-avatar: #3a3a36;
+
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  --sidebar-width: 228px;
+  --topbar-height: 56px;
+  --content-max: 1240px;
+}
