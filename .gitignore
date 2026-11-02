@@ -41,9 +41,8 @@ yarn-error.log*
 # vercel
 .vercel
 
-# local SQLite (Page Studio)
-/data/*.db
-/data/*.db-*
+# legacy local SQLite (optional dev artifact)
+/data/
 
 # typescript
 *.tsbuildinfo

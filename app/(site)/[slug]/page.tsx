@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { PageRenderer } from "@/components/PageRenderer";
-import { getDb } from "@/lib/db";
-import { getPublishedPageBySlug } from "@/lib/db/pages";
+import { getPublishedPageBySlug } from "@/lib/pages/store";
 import { RESERVED_SLUGS } from "@/lib/slug";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -15,8 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if ((RESERVED_SLUGS as readonly string[]).includes(slug)) {
     return { title: "Not found" };
   }
-  const db = getDb();
-  const page = getPublishedPageBySlug(db, slug);
+  const page = await getPublishedPageBySlug(slug);
   if (!page) return { title: "Not found" };
   return {
     title: page.name,
@@ -29,8 +27,7 @@ export default async function PublicLandingPage({ params }: Props) {
   if ((RESERVED_SLUGS as readonly string[]).includes(slug)) {
     notFound();
   }
-  const db = getDb();
-  const page = getPublishedPageBySlug(db, slug);
+  const page = await getPublishedPageBySlug(slug);
   if (!page) {
     notFound();
   }

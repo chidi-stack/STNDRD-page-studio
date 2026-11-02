@@ -1,11 +1,10 @@
 import { PageStudioApp } from "@/components/studio/PageStudioApp";
-import { getDb } from "@/lib/db";
-import { listAllPages } from "@/lib/db/pages";
 import { dbPagesToHandoff } from "@/lib/handoff/map-pages";
+import { listAllPages } from "@/lib/pages/store";
 
 export const dynamic = "force-dynamic";
 
-export default function EditorDashboardPage() {
-  const pages = dbPagesToHandoff(listAllPages(getDb()));
+export default async function EditorDashboardPage() {
+  const pages = dbPagesToHandoff(await listAllPages());
   return <PageStudioApp initialPages={pages} />;
 }

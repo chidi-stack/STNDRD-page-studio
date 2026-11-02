@@ -2,15 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 
-import { getDb } from "@/lib/db";
 import {
   duplicatePage,
   getPageById,
   insertPage,
+  isSlugConflictError,
   listAllSlugs,
   listPageSummaries,
   updatePage,
-} from "@/lib/db/pages";
+} from "@/lib/pages/store";
 import { newPageId, newSectionId } from "@/lib/sections/ids";
 import { slugifyName, validateSlug } from "@/lib/slug";
 import type {
@@ -24,13 +24,11 @@ import type {
 
 /** DB-only reads — keep separate from section registry (DevLink client components). */
 export async function fetchPages(): Promise<PageSummary[]> {
-  const db = getDb();
-  return listPageSummaries(db);
+  return listPageSummaries();
 }
 
 export async function fetchPage(id: string): Promise<PageRecord | null> {
-  const db = getDb();
-  return getPageById(db, id);
+  return getPageById(id);
 }
 
 export async function createPageAction(input: {
@@ -38,19 +36,26 @@ export async function createPageAction(input: {
   slug: string;
   theme: PageTheme;
 }): Promise<{ ok: true; id: string } | { ok: false; error: string }> {
-  const db = getDb();
   const slug = input.slug.trim() || slugifyName(input.name);
-  const err = validateSlug(slug, { usedSlugs: listAllSlugs(db) });
+  const usedSlugs = await listAllSlugs();
+  const err = validateSlug(slug, { usedSlugs });
   if (err) return { ok: false, error: err };
   if (!input.name.trim()) return { ok: false, error: "Enter a page name." };
 
   const id = newPageId();
-  insertPage(db, {
-    id,
-    name: input.name.trim(),
-    slug,
-    theme: input.theme,
-  });
+  try {
+    await insertPage({
+      id,
+      name: input.name.trim(),
+      slug,
+      theme: input.theme,
+    });
+  } catch (e) {
+    if (isSlugConflictError(e)) {
+      return { ok: false, error: "That slug is already in use." };
+    }
+    throw e;
+  }
   revalidatePath("/editor");
   return { ok: true, id };
 }
@@ -63,25 +68,32 @@ export async function savePageAction(input: {
   sections: PageSection[];
   cta: CtaConfig;
 }): Promise<{ ok: true } | { ok: false; error: string }> {
-  const db = getDb();
-  const existing = getPageById(db, input.id);
+  const existing = await getPageById(input.id);
   if (!existing) return { ok: false, error: "Page not found." };
 
   const slug = input.slug.trim();
+  const usedSlugs = await listAllSlugs();
   const err = validateSlug(slug, {
     existingSlug: existing.slug,
-    usedSlugs: listAllSlugs(db),
+    usedSlugs,
   });
   if (err) return { ok: false, error: err };
   if (!input.name.trim()) return { ok: false, error: "Enter a page name." };
 
-  updatePage(db, input.id, {
-    name: input.name.trim(),
-    slug,
-    theme: input.theme,
-    sections: input.sections,
-    cta: input.cta,
-  });
+  try {
+    await updatePage(input.id, {
+      name: input.name.trim(),
+      slug,
+      theme: input.theme,
+      sections: input.sections,
+      cta: input.cta,
+    });
+  } catch (e) {
+    if (isSlugConflictError(e)) {
+      return { ok: false, error: "That slug is already in use." };
+    }
+    throw e;
+  }
   revalidatePath("/editor");
   revalidatePath(`/editor/${input.id}`);
   revalidatePath(`/${existing.slug}`);
@@ -93,11 +105,10 @@ export async function setPageStatusAction(input: {
   id: string;
   status: PageStatus;
 }): Promise<{ ok: true } | { ok: false; error: string }> {
-  const db = getDb();
-  const existing = getPageById(db, input.id);
+  const existing = await getPageById(input.id);
   if (!existing) return { ok: false, error: "Page not found." };
 
-  updatePage(db, input.id, { status: input.status });
+  await updatePage(input.id, { status: input.status });
   revalidatePath("/editor");
   revalidatePath(`/editor/${input.id}`);
   revalidatePath(`/${existing.slug}`);
@@ -111,8 +122,7 @@ export async function addSectionAction(input: {
   const { getSectionDef } = await import("@/lib/sections/registry");
   const def = getSectionDef(input.sectionType);
   if (!def) return { ok: false, error: "Unknown section type." };
-  const db = getDb();
-  const page = getPageById(db, input.pageId);
+  const page = await getPageById(input.pageId);
   if (!page) return { ok: false, error: "Page not found." };
 
   const section: PageSection = {
@@ -120,7 +130,7 @@ export async function addSectionAction(input: {
     type: def.type,
     props: def.defaultProps(),
   };
-  updatePage(db, input.pageId, {
+  await updatePage(input.pageId, {
     sections: [...page.sections, section],
   });
   revalidatePath(`/editor/${input.pageId}`);
@@ -130,20 +140,19 @@ export async function addSectionAction(input: {
 export async function duplicatePageAction(
   id: string,
 ): Promise<{ ok: true; newId: string } | { ok: false; error: string }> {
-  const db = getDb();
-  const source = getPageById(db, id);
+  const source = await getPageById(id);
   if (!source) return { ok: false, error: "Page not found." };
 
   let candidate = `${source.slug}-copy`;
   let n = 2;
-  while (validateSlug(candidate, { usedSlugs: listAllSlugs(db) }) !== null) {
+  const usedSlugs = await listAllSlugs();
+  while (validateSlug(candidate, { usedSlugs }) !== null) {
     candidate = `${source.slug}-copy-${n}`;
     n += 1;
   }
 
   const newId = newPageId();
-  const dup = duplicatePage(
-    db,
+  const dup = await duplicatePage(
     id,
     newId,
     candidate,

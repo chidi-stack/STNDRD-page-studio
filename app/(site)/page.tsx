@@ -1,15 +1,12 @@
 import Link from "next/link";
 
-import { getDb } from "@/lib/db";
-import { getPublishedPageBySlug } from "@/lib/db/pages";
+import { getPublishedPageBySlug } from "@/lib/pages/store";
 import { publicPageUrl } from "@/lib/public-url";
 
-/** SQLite reads — do not prerender at build time. */
 export const dynamic = "force-dynamic";
 
-export default function Home() {
-  const db = getDb();
-  const sample = getPublishedPageBySlug(db, "pilot-coaches");
+export default async function Home() {
+  const sample = await getPublishedPageBySlug("pilot-coaches");
   const sampleUrl = sample ? publicPageUrl(sample.slug) : null;
 
   return (
@@ -34,7 +31,7 @@ export default function Home() {
       </p>
       <h1 style={{ fontSize: "2rem", fontWeight: 650 }}>Dev app</h1>
       <p style={{ color: "#444", lineHeight: 1.6 }}>
-        Local SQLite storage · public pages at{" "}
+        Supabase page storage · public pages at{" "}
         <code style={{ background: "#f0f0eb", padding: "0.1rem 0.35rem" }}>
           /[slug]
         </code>{" "}

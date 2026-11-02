@@ -31,10 +31,11 @@ Update the URL in `lib/webflow-published-css.ts` after a site republish if the h
 - **Canvas:** Handoff `Section.jsx` for library types (hero-split, FAQ, etc.); **DevLink** sections render via `StudioSectionBridge.tsx` + `PageRenderer`. **Registered sections:** `section-coach` only for now — add more in `lib/sections/registry.ts` when ready. **Mobile** toolbar mode uses a **390px iframe** (`/editor/preview/frame`) so Webflow `@media` breakpoints match a real phone viewport; **Desktop** keeps the scaled 1280px inline canvas.
 - **Fields:** DevLink sections use `lib/sections/registry.ts` + `SectionFieldEditor` in the Page Studio sidebar (`StudioRegistryFields.tsx`). Section picker lists registry types when `useRegistryPicker` is set on `PageStudio`. Images use `ImageField` with **Supabase Storage** upload (`uploadPageStudioImageAction`) or paste URL.
 - **Image uploads:** Server action `lib/actions/upload-asset.ts` writes to bucket `SUPABASE_STORAGE_BUCKET` (default `page-studio-assets`) under `pages/{pageId}/{sectionId}/{uuid}.ext`. Requires `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`. Create the bucket in Supabase → Storage, mark **public** (or add a public read policy) so published pages can load images.
-- **Storage:** SQLite at `data/page-studio.db`. Save in the editor syncs back to SQLite (`syncHandoffPagesAction`).
+- **Page data:** Supabase Postgres via `lib/pages/store.ts` (service role on the server). Run `supabase/migrations/001_pages.sql` once in the Supabase SQL editor.
+- **Save:** Editor syncs via `syncHandoffPagesAction`.
 - **Routes:** `/editor`, `/editor/[pageId]`.
 - **Public:** `/[slug]` — published pages only (DevLink renderer).
-- **Deploy note:** Vercel serverless has no durable local disk; use this SQLite setup for **local dev**. Copy `.env.example` → `.env.local` and set `NEXT_PUBLIC_SITE_URL` (and Supabase vars for uploads). Add the same keys in Vercel project settings. Move page data to Supabase/Turso before relying on production DB on Vercel.
+- **Deploy:** Copy `.env.example` → `.env.local`. On Vercel use **private** env names: `SITE_URL`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (no `NEXT_PUBLIC_` — nothing sensitive is sent to the browser).
 
 ## Known export warning
 
