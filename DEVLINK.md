@@ -35,7 +35,7 @@ Update the URL in `lib/webflow-published-css.ts` after a site republish if the h
 - **Save:** Editor syncs via `syncHandoffPagesAction`.
 - **Routes:** `/editor`, `/editor/[pageId]`.
 - **Public:** `/[slug]` — published pages only (DevLink renderer).
-- **Deploy:** Copy `.env.example` → `.env.local`. On Vercel use **private** env names: `SITE_URL`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (no `NEXT_PUBLIC_` — nothing sensitive is sent to the browser).
+- **Deploy:** Copy `.env.example` → `.env.local`. On Vercel ( **Production** scope): `SITE_URL`, `SUPABASE_URL` (base URL, no `/rest/v1`), `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_STORAGE_BUCKET`. **Redeploy** after changing env. Smoke test: `GET /api/health/db` → `{ "ok": true }`.
 
 ## Known export warning
 

@@ -2,24 +2,19 @@ import "server-only";
 
 import { createClient } from "@supabase/supabase-js";
 
-/** Project URL only — strip accidental `/rest/v1` suffix from dashboard copy-paste. */
+import {
+  assertSupabaseServerConfig,
+  resolveSupabaseProjectUrl,
+} from "./resolve-env";
+
+/** @deprecated use resolveSupabaseProjectUrl */
 export function getSupabaseProjectUrl(): string {
-  const raw =
-    process.env.SUPABASE_URL?.trim() ||
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  if (!raw) return "";
-  return raw.replace(/\/rest\/v1\/?$/i, "").replace(/\/$/, "");
+  return resolveSupabaseProjectUrl();
 }
 
 export function createSupabaseAdmin() {
-  const url = getSupabaseProjectUrl();
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
-    throw new Error(
-      "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY. See .env.example.",
-    );
-  }
-  return createClient(url, key, {
+  const { url, serviceRoleKey } = assertSupabaseServerConfig();
+  return createClient(url, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 }
