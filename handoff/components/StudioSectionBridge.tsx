@@ -2,6 +2,7 @@
 
 import { Providers } from "@/app/providers";
 import { PageRenderer } from "@/components/PageRenderer";
+import { getSectionDef } from "@/lib/sections/registry";
 import type { PageSection } from "@/lib/types/page";
 
 import Section from "./Section.jsx";
@@ -20,8 +21,9 @@ type Props = {
 /** Renders handoff Section types or DevLink sections in the Page Studio canvas. */
 export default function StudioSectionBridge({ section, theme, device }: Props) {
   const type = section?.type || "";
+  const devlink = getSectionDef(type);
 
-  if (type.startsWith("section-")) {
+  if (devlink) {
     const pageSection: PageSection = {
       id: section.id || type,
       type,

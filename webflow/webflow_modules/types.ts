@@ -35,21 +35,47 @@ export type TagProps = Props<
 >;
 
 /**
+ * Options for a Link that navigates
+ */
+export type AnchorLinkOptions = {
+  href: string;
+  target?: "_self" | "_blank";
+  preload?: "none" | "prefetch" | "prerender";
+};
+
+/**
+ * Options for a Link that controls a Popover. Without a `popoverTarget` the
+ * Link renders as a button that controls nothing.
+ */
+export type PopoverLinkOptions = {
+  popoverTarget?: string;
+  popoverTargetAction: "toggle" | "show" | "hide";
+};
+
+/**
+ * Options for a Link that controls a Modal. Without a `modalTarget` the Link
+ * renders as a button that controls nothing.
+ */
+export type ModalLinkOptions = {
+  modalTarget?: string;
+  modalAction: "show" | "hide";
+};
+
+/**
+ * Element a Link renders: a Popover/Modal trigger renders a `<button>`.
+ */
+export type LinkElement = HTMLAnchorElement | HTMLButtonElement;
+
+/**
  * Link props type for Link component
  */
-export type LinkProps = Props<
-  "a",
-  {
-    options?: {
-      href: string;
-      target?: "_self" | "_blank";
-      preload?: "none" | "prefetch" | "prerender";
-    };
+export type LinkProps = React.HTMLAttributes<LinkElement> &
+  React.PropsWithChildren<{
+    options?: AnchorLinkOptions | PopoverLinkOptions | ModalLinkOptions;
     className?: string;
     button?: boolean;
     block?: string;
-  }
->;
+  }>;
 
 // ============================================================================
 // Value Type Namespaces
@@ -68,7 +94,20 @@ export namespace Basic {
 
   type PreloadedAndTargetedLink = PreloadedLink & TargetedLink;
 
-  export type Link = { href: string } & PreloadedAndTargetedLink;
+  type PopoverLink = {
+    popoverTarget?: string;
+    popoverTargetAction: "toggle" | "show" | "hide";
+  };
+
+  type ModalLink = {
+    modalTarget?: string;
+    modalAction: "show" | "hide";
+  };
+
+  export type Link =
+    | ({ href: string } & PreloadedAndTargetedLink)
+    | PopoverLink
+    | ModalLink;
 
   export type RichTextChildren = React.ReactNode;
 }

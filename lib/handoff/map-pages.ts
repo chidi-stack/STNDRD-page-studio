@@ -39,7 +39,11 @@ const STATUS_FROM_HANDOFF: Record<string, PageStatus> = {
 };
 
 function isDevLinkSection(type: string): boolean {
-  return type.startsWith("section-");
+  return (
+    type.startsWith("section-") ||
+    type.startsWith("nav-") ||
+    type.startsWith("header-")
+  );
 }
 
 export function dbSectionToHandoff(section: PageSection): HandoffSection {

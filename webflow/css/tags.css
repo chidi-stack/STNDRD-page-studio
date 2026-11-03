@@ -1,0 +1,43 @@
+@scope (.wf-devlink-e616bce9bc2a3ffdf609c204220e7930) {
+  body {
+    display: block;
+    overflow: visible;
+    font-family: elveticaNeueRoman, Arial, sans-serif;
+    color: var(--black);
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  h1 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: Tungsten, "Trebuchet MS", sans-serif;
+    font-size: 6.875rem;
+    line-height: 44px;
+    font-weight: 400;
+  }
+  h5 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: bold;
+  }
+  a {
+    color: var(--white);
+    text-decoration: none;
+  }
+  #w-node-_708348d1-fa1c-bc02-90ce-44f3993e1853-993e184f {
+    justify-self: end;
+  }
+  #w-node-_885e5dba-55ee-6b4e-87e6-e74b87e2d5b1-87e2d5ad {
+    justify-self: center;
+  }
+  #w-node-_885e5dba-55ee-6b4e-87e6-e74b87e2d5b5-87e2d5ad {
+    justify-self: end;
+  }
+  @media screen and (max-width: 479px) {
+    #w-node-e1f4b28c-0b43-c30e-d01b-03b652c21352-52c21336 {
+      order: -9999;
+    }
+  }
+}

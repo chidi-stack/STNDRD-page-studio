@@ -6,12 +6,12 @@
  *
  * @see {@link https://stndrd-coaching.design.webflow.com | Source site in Webflow}
  */
-'use client';
+"use client";
 
-import { DEVLINK_SCOPE_CLASS } from '../devlinkScope';
-import Block from '../webflow_modules/Basic/components/Block';
-import Heading from '../webflow_modules/Basic/components/Heading';
-import Image from '../webflow_modules/Basic/components/Image';
+import { DEVLINK_SCOPE_CLASS } from "../devlinkScope";
+import Block from "../webflow_modules/Basic/components/Block";
+import Heading from "../webflow_modules/Basic/components/Heading";
+import Image from "../webflow_modules/Basic/components/Image";
 
 /**
  * Props for {@link SectionCoach}
@@ -46,224 +46,224 @@ export type SectionCoachProps = {
  * @see {@link https://stndrd-coaching.design.webflow.com | Source site in Webflow}
  */
 export function SectionCoach({
-  g10H10 = 'David Laid',
-  g10Image10 = 'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f27c_Frame%202147227976.png',
-  g1Image1 = 'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f26e_Frame%202147227930.png',
-  g1PlainText = 'Budda Baker',
-  g2H2 = 'Marcus McGhee',
-  g2Image2 = 'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f27e_Frame%202147227931.png',
-  g3H3 = 'Ryan Hughes',
-  g3Image3 = 'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f254_Frame%202147227932.png',
-  g4H4 = 'Will Tennyson',
-  g4Image4 = 'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f274_Frame%202147227933.png',
-  g5H5 = 'Jason House',
-  g5Image5 = 'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f270_Frame%202147227934.png',
-  g6H6 = 'Helen Maroulis',
-  g6Image6 = 'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f278_Frame%202147227972.png',
-  g7H7 = 'Christian Guzman',
-  g7Image7 = 'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f276_Frame%202147227973.png',
-  g8H8 = 'Chris Bumstead',
-  g8Image8 = 'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f272_Frame%202147227974.png',
-  g9H9 = 'Jalen Thompson',
-  g9Image9 = 'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f27a_Frame%202147227975.png',
-  heading = 'COACH TO TODAY’S MOST ELITE TEAM',
+  g10H10 = "David Laid",
+  g10Image10 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f27c_Frame%202147227976.png",
+  g1Image1 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f26e_Frame%202147227930.png",
+  g1PlainText = "Budda Baker",
+  g2H2 = "Marcus McGhee",
+  g2Image2 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f27e_Frame%202147227931.png",
+  g3H3 = "Ryan Hughes",
+  g3Image3 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f254_Frame%202147227932.png",
+  g4H4 = "Will Tennyson",
+  g4Image4 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f274_Frame%202147227933.png",
+  g5H5 = "Jason House",
+  g5Image5 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f270_Frame%202147227934.png",
+  g6H6 = "Helen Maroulis",
+  g6Image6 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f278_Frame%202147227972.png",
+  g7H7 = "Christian Guzman",
+  g7Image7 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f276_Frame%202147227973.png",
+  g8H8 = "Chris Bumstead",
+  g8Image8 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f272_Frame%202147227974.png",
+  g9H9 = "Jalen Thompson",
+  g9Image9 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/6a15ee54c34c12a129c8f27a_Frame%202147227975.png",
+  heading = "COACH TO TODAY’S MOST ELITE PERFORMERS.",
 }: SectionCoachProps) {
   return (
     <div
       className={DEVLINK_SCOPE_CLASS}
       style={{
-        display: 'contents',
+        display: "contents",
       }}
     >
-      <Block className={'section_coach'} tag={'div'}>
-        <Block className={'padding-global'} tag={'div'}>
-          <Block className={'container-large-2'} tag={'div'}>
-            <Block className={'padding-section-medium'} tag={'div'}>
-              <Block className={'text-align-center'} tag={'div'}>
+      <Block className={"section_coach"} tag={"div"}>
+        <Block className={"padding-global"} tag={"div"}>
+          <Block className={"container-large-2"} tag={"div"}>
+            <Block className={"padding-section-medium"} tag={"div"}>
+              <Block className={"text-align-center"} tag={"div"}>
                 <Heading
-                  className={'heading-style-h1-4 text-color-white'}
-                  tag={'h2'}
+                  className={"heading-style-h1-4 text-color-white"}
+                  tag={"h2"}
                 >
                   {heading}
                 </Heading>
               </Block>
-              <Block className={'coach-grid'} tag={'div'}>
+              <Block className={"coach-grid"} tag={"div"}>
                 <Block
-                  className={'coach-column'}
-                  id={'w-node-_5a052f1c-361b-5838-4b5b-ee98d827f667-d827f65f'}
-                  tag={'div'}
+                  className={"coach-column"}
+                  id={"w-node-_5a052f1c-361b-5838-4b5b-ee98d827f667-d827f65f"}
+                  tag={"div"}
                 >
                   <Image
-                    alt={''}
-                    height={'auto'}
-                    loading={'lazy'}
+                    alt={""}
+                    height={"auto"}
+                    loading={"lazy"}
                     src={g1Image1}
-                    width={'auto'}
+                    width={"auto"}
                   />
-                  <Block className={'athlete-name'} tag={'div'}>
-                    <Heading className={'health-h5'} tag={'h5'}>
+                  <Block className={"athlete-name"} tag={"div"}>
+                    <Heading className={"health-h5"} tag={"h5"}>
                       {g1PlainText}
                     </Heading>
                   </Block>
                 </Block>
                 <Block
-                  className={'coach-column'}
-                  id={'w-node-_5a052f1c-361b-5838-4b5b-ee98d827f66e-d827f65f'}
-                  tag={'div'}
+                  className={"coach-column"}
+                  id={"w-node-_5a052f1c-361b-5838-4b5b-ee98d827f66e-d827f65f"}
+                  tag={"div"}
                 >
                   <Image
-                    alt={''}
-                    height={'auto'}
-                    loading={'lazy'}
+                    alt={""}
+                    height={"auto"}
+                    loading={"lazy"}
                     src={g2Image2}
-                    width={'auto'}
+                    width={"auto"}
                   />
-                  <Block className={'athlete-name'} tag={'div'}>
-                    <Heading className={'health-h5'} tag={'h5'}>
+                  <Block className={"athlete-name"} tag={"div"}>
+                    <Heading className={"health-h5"} tag={"h5"}>
                       {g2H2}
                     </Heading>
                   </Block>
                 </Block>
                 <Block
-                  className={'coach-column'}
-                  id={'w-node-_5a052f1c-361b-5838-4b5b-ee98d827f675-d827f65f'}
-                  tag={'div'}
+                  className={"coach-column"}
+                  id={"w-node-_5a052f1c-361b-5838-4b5b-ee98d827f675-d827f65f"}
+                  tag={"div"}
                 >
                   <Image
-                    alt={''}
-                    height={'auto'}
-                    loading={'lazy'}
+                    alt={""}
+                    height={"auto"}
+                    loading={"lazy"}
                     src={g3Image3}
-                    width={'auto'}
+                    width={"auto"}
                   />
-                  <Block className={'athlete-name'} tag={'div'}>
-                    <Heading className={'health-h5'} tag={'h5'}>
+                  <Block className={"athlete-name"} tag={"div"}>
+                    <Heading className={"health-h5"} tag={"h5"}>
                       {g3H3}
                     </Heading>
                   </Block>
                 </Block>
                 <Block
-                  className={'coach-column'}
-                  id={'w-node-_5a052f1c-361b-5838-4b5b-ee98d827f67c-d827f65f'}
-                  tag={'div'}
+                  className={"coach-column"}
+                  id={"w-node-_5a052f1c-361b-5838-4b5b-ee98d827f67c-d827f65f"}
+                  tag={"div"}
                 >
                   <Image
-                    alt={''}
-                    height={'auto'}
-                    loading={'lazy'}
+                    alt={""}
+                    height={"auto"}
+                    loading={"lazy"}
                     src={g4Image4}
-                    width={'auto'}
+                    width={"auto"}
                   />
-                  <Block className={'athlete-name'} tag={'div'}>
-                    <Heading className={'health-h5'} tag={'h5'}>
+                  <Block className={"athlete-name"} tag={"div"}>
+                    <Heading className={"health-h5"} tag={"h5"}>
                       {g4H4}
                     </Heading>
                   </Block>
                 </Block>
                 <Block
-                  className={'coach-column'}
-                  id={'w-node-_5a052f1c-361b-5838-4b5b-ee98d827f683-d827f65f'}
-                  tag={'div'}
+                  className={"coach-column"}
+                  id={"w-node-_5a052f1c-361b-5838-4b5b-ee98d827f683-d827f65f"}
+                  tag={"div"}
                 >
                   <Image
-                    alt={''}
-                    height={'auto'}
-                    loading={'lazy'}
+                    alt={""}
+                    height={"auto"}
+                    loading={"lazy"}
                     src={g5Image5}
-                    width={'auto'}
+                    width={"auto"}
                   />
-                  <Block className={'athlete-name'} tag={'div'}>
-                    <Heading className={'health-h5'} tag={'h5'}>
+                  <Block className={"athlete-name"} tag={"div"}>
+                    <Heading className={"health-h5"} tag={"h5"}>
                       {g5H5}
                     </Heading>
                   </Block>
                 </Block>
                 <Block
-                  className={'coach-column'}
-                  id={'w-node-_5a052f1c-361b-5838-4b5b-ee98d827f68a-d827f65f'}
-                  tag={'div'}
+                  className={"coach-column"}
+                  id={"w-node-_5a052f1c-361b-5838-4b5b-ee98d827f68a-d827f65f"}
+                  tag={"div"}
                 >
                   <Image
-                    alt={''}
-                    height={'auto'}
-                    loading={'lazy'}
+                    alt={""}
+                    height={"auto"}
+                    loading={"lazy"}
                     src={g6Image6}
-                    width={'auto'}
+                    width={"auto"}
                   />
-                  <Block className={'athlete-name'} tag={'div'}>
-                    <Heading className={'health-h5'} tag={'h5'}>
+                  <Block className={"athlete-name"} tag={"div"}>
+                    <Heading className={"health-h5"} tag={"h5"}>
                       {g6H6}
                     </Heading>
                   </Block>
                 </Block>
                 <Block
-                  className={'coach-column'}
-                  id={'w-node-_5a052f1c-361b-5838-4b5b-ee98d827f691-d827f65f'}
-                  tag={'div'}
+                  className={"coach-column"}
+                  id={"w-node-_5a052f1c-361b-5838-4b5b-ee98d827f691-d827f65f"}
+                  tag={"div"}
                 >
                   <Image
-                    alt={''}
-                    height={'auto'}
-                    loading={'lazy'}
+                    alt={""}
+                    height={"auto"}
+                    loading={"lazy"}
                     src={g7Image7}
-                    width={'auto'}
+                    width={"auto"}
                   />
-                  <Block className={'athlete-name'} tag={'div'}>
-                    <Heading className={'health-h5'} tag={'h5'}>
+                  <Block className={"athlete-name"} tag={"div"}>
+                    <Heading className={"health-h5"} tag={"h5"}>
                       {g7H7}
                     </Heading>
                   </Block>
                 </Block>
                 <Block
-                  className={'coach-column'}
-                  id={'w-node-_5a052f1c-361b-5838-4b5b-ee98d827f698-d827f65f'}
-                  tag={'div'}
+                  className={"coach-column"}
+                  id={"w-node-_5a052f1c-361b-5838-4b5b-ee98d827f698-d827f65f"}
+                  tag={"div"}
                 >
                   <Image
-                    alt={''}
-                    height={'auto'}
-                    loading={'lazy'}
+                    alt={""}
+                    height={"auto"}
+                    loading={"lazy"}
                     src={g8Image8}
-                    width={'auto'}
+                    width={"auto"}
                   />
-                  <Block className={'athlete-name'} tag={'div'}>
-                    <Heading className={'health-h5'} tag={'h5'}>
+                  <Block className={"athlete-name"} tag={"div"}>
+                    <Heading className={"health-h5"} tag={"h5"}>
                       {g8H8}
                     </Heading>
                   </Block>
                 </Block>
                 <Block
-                  className={'coach-column'}
-                  id={'w-node-_5a052f1c-361b-5838-4b5b-ee98d827f69f-d827f65f'}
-                  tag={'div'}
+                  className={"coach-column"}
+                  id={"w-node-_5a052f1c-361b-5838-4b5b-ee98d827f69f-d827f65f"}
+                  tag={"div"}
                 >
                   <Image
-                    alt={''}
-                    height={'auto'}
-                    loading={'lazy'}
+                    alt={""}
+                    height={"auto"}
+                    loading={"lazy"}
                     src={g9Image9}
-                    width={'auto'}
+                    width={"auto"}
                   />
-                  <Block className={'athlete-name'} tag={'div'}>
-                    <Heading className={'health-h5'} tag={'h5'}>
+                  <Block className={"athlete-name"} tag={"div"}>
+                    <Heading className={"health-h5"} tag={"h5"}>
                       {g9H9}
                     </Heading>
                   </Block>
                 </Block>
                 <Block
-                  className={'coach-column'}
-                  id={'w-node-_5a052f1c-361b-5838-4b5b-ee98d827f6a6-d827f65f'}
-                  tag={'div'}
+                  className={"coach-column"}
+                  id={"w-node-_5a052f1c-361b-5838-4b5b-ee98d827f6a6-d827f65f"}
+                  tag={"div"}
                 >
                   <Image
-                    alt={''}
-                    height={'auto'}
-                    loading={'lazy'}
+                    alt={""}
+                    height={"auto"}
+                    loading={"lazy"}
                     src={g10Image10}
-                    width={'auto'}
+                    width={"auto"}
                   />
-                  <Block className={'athlete-name'} tag={'div'}>
-                    <Heading className={'health-h5'} tag={'h5'}>
+                  <Block className={"athlete-name"} tag={"div"}>
+                    <Heading className={"health-h5"} tag={"h5"}>
                       {g10H10}
                     </Heading>
                   </Block>

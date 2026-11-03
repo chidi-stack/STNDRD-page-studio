@@ -1,2 +1,2 @@
 export const DEVLINK_SCOPE_CLASS =
-  "wf-devlink-ef664173a9aa97a1e3da1c760ceec8bc";
+  "wf-devlink-e616bce9bc2a3ffdf609c204220e7930";

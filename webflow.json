@@ -2,8 +2,8 @@
   "siteId": "68a822ab60d65fba371458e2",
   "devlink-export": {
     "rootDir": "./webflow",
-    "components": "section_coach",
-    "componentGroups": "sections2",
+    "components": "SectionCoach|NavCoachingApply|NavProtocol|NavbarLogoOnly|HeaderOffer|HeaderPrecall|HeaderProtocol",
+    "componentGroups": ".*",
     "ts": true,
     "cssScopes": true,
     "relativeHrefRoot": "/"
