@@ -17,14 +17,38 @@ import Image from "../webflow_modules/Basic/components/Image";
 /**
  * Props for {@link SectionCreators}
  */
-export type SectionCreatorsProps = {};
+export type SectionCreatorsProps = {
+  image1?: string;
+  image2?: string;
+  text1?: React.ReactNode;
+  text2?: React.ReactNode;
+  text3?: React.ReactNode;
+  text4?: React.ReactNode;
+  text5?: React.ReactNode;
+  text6?: React.ReactNode;
+  title1?: React.ReactNode;
+  title2?: React.ReactNode;
+  title3?: React.ReactNode;
+};
 
 /**
  * SectionCreators
  *
  * @see {@link https://stndrd-coaching.design.webflow.com | Source site in Webflow}
  */
-export function SectionCreators({}: SectionCreatorsProps) {
+export function SectionCreators({
+  image1 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8f4_Image%20Container1.png",
+  image2 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8fa_Image%20Container3.png",
+  text1 = "Justin is one of one in this space.",
+  text2 = "Chris Bumstead",
+  text3 = "Co Founder",
+  text4 = "Justin is becoming known as the person you go to when you want \"life transformative results\". The STNDRD Coaching System is his brain child - a mix of 100's of years of experience, contextualized into the most result producing, high performer transformation system in the world. He's been trusted by 1,000's to deliver such results, 100+ pro athletes, and his goal is to continue shaping the cultural shift to create better and stronger men who's standard they build in the gym, bleed over into every area o their lives.",
+  text5 = "Co Founder",
+  text6 = "Chris is the total embodiment of a high performer who seemingly carries the world on his shoulders. A husband, father, owner of a robust 9 figure portfolio, endless travel and event calendar - and on top of all of that, a X6 Mr. Olympia Champion, Chris has built a framework that proves you can have the mind, the body, the family, the output, and the success! All by a singular system of raising your standard and refusing to slide backwards into comfort. He believes this framework will change a generation of men and all it takes is showing up.",
+  title1 = "Meet the Creators of the Higher Standard Transformation System",
+  title2 = "justin king",
+  title3 = "Chris Bumstead",
+}: SectionCreatorsProps) {
   return (
     <div
       className={DEVLINK_SCOPE_CLASS}
@@ -38,9 +62,7 @@ export function SectionCreators({}: SectionCreatorsProps) {
             <Block className={"padding-section-medium"} tag={"div"}>
               <Block className={"text-align-center"} tag={"div"}>
                 <Heading className={"heading-style-h1-3"} tag={"h2"}>
-                  {
-                    "Meet the Creators of the Higher Standard Transformation System"
-                  }
+                  {title1}
                 </Heading>
               </Block>
               <Block className={"creators-grid"} tag={"div"}>
@@ -55,9 +77,7 @@ export function SectionCreators({}: SectionCreatorsProps) {
                       className={"creator-image"}
                       height={"auto"}
                       loading={"lazy"}
-                      src={
-                        "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8f4_Image%20Container1.png"
-                      }
+                      src={image1}
                       width={"auto"}
                     />
                     <Block className={"creator-abs"} tag={"div"}>
@@ -67,16 +87,14 @@ export function SectionCreators({}: SectionCreatorsProps) {
                         }
                       />
                       <Block className={"creator-testimonial"} tag={"div"}>
-                        <Block tag={"div"}>
-                          {"Justin is one of one in this space."}
-                        </Block>
+                        <Block tag={"div"}>{text1}</Block>
                         <Block
                           className={
                             "text-color-amber text-style-allcaps text-size-small"
                           }
                           tag={"div"}
                         >
-                          {"Chris Bumstead"}
+                          {text2}
                         </Block>
                       </Block>
                     </Block>
@@ -89,14 +107,12 @@ export function SectionCreators({}: SectionCreatorsProps) {
                         }
                         tag={"h3"}
                       >
-                        {"justin king"}
+                        {title2}
                       </Heading>
-                      <Block tag={"div"}>{"Co Founder"}</Block>
+                      <Block tag={"div"}>{text3}</Block>
                     </Block>
                     <Block className={"text-color-gray"} tag={"div"}>
-                      {
-                        "Justin is becoming known as the person you go to when you want \"life transformative results\". The STNDRD Coaching System is his brain child - a mix of 100's of years of experience, contextualized into the most result producing, high performer transformation system in the world. He's been trusted by 1,000's to deliver such results, 100+ pro athletes, and his goal is to continue shaping the cultural shift to create better and stronger men who's standard they build in the gym, bleed over into every area o their lives."
-                      }
+                      {text4}
                     </Block>
                   </Block>
                 </Block>
@@ -111,9 +127,7 @@ export function SectionCreators({}: SectionCreatorsProps) {
                       className={"creator-image"}
                       height={"auto"}
                       loading={"lazy"}
-                      src={
-                        "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8fa_Image%20Container3.png"
-                      }
+                      src={image2}
                       width={"auto"}
                     />
                   </Block>
@@ -125,14 +139,12 @@ export function SectionCreators({}: SectionCreatorsProps) {
                         }
                         tag={"h3"}
                       >
-                        {"Chris Bumstead"}
+                        {title3}
                       </Heading>
-                      <Block tag={"div"}>{"Co Founder"}</Block>
+                      <Block tag={"div"}>{text5}</Block>
                     </Block>
                     <Block className={"text-color-gray"} tag={"div"}>
-                      {
-                        "Chris is the total embodiment of a high performer who seemingly carries the world on his shoulders. A husband, father, owner of a robust 9 figure portfolio, endless travel and event calendar - and on top of all of that, a X6 Mr. Olympia Champion, Chris has built a framework that proves you can have the mind, the body, the family, the output, and the success! All by a singular system of raising your standard and refusing to slide backwards into comfort. He believes this framework will change a generation of men and all it takes is showing up."
-                      }
+                      {text6}
                     </Block>
                   </Block>
                 </Block>

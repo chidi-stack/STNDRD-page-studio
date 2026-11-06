@@ -5,4 +5,4 @@
  * Re-pin when Webflow republishes (check /protocol <link rel="stylesheet">).
  */
 export const WEBFLOW_PUBLISHED_SHARED_CSS =
-  'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/css/stndrd-coaching.webflow.shared.978c412cb.css';
+  'https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/css/stndrd-coaching.webflow.shared.59c85faf0.css';

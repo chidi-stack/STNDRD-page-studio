@@ -36,7 +36,7 @@ export function EditorDashboard({ pages }: { pages: PageSummary[] }) {
         <section className="studio-panel">
           <h2 className="studio-panel-title">Create landing page</h2>
           <p className="studio-muted studio-panel-lead">
-            Starts with hero, coach grid, and FAQ sections. Slugs are checked against Webflow and reserved paths.
+            Starts with the coaching landing template: nav through proof, CTA, and footer.
           </p>
           <CreatePageForm />
         </section>

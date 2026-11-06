@@ -22,14 +22,45 @@ const _interactionsData = JSON.parse(
 /**
  * Props for {@link SectionCta}
  */
-export type SectionCtaProps = {};
+export type SectionCtaProps = {
+  image1?: string;
+  image2?: string;
+  link?:
+    | {
+        href: string;
+        preload?: "prerender" | "prefetch" | "none";
+        target?: "_self" | "_blank";
+      }
+    | {
+        popoverTarget?: string;
+        popoverTargetAction: "toggle" | "show" | "hide";
+      }
+    | {
+        modalTarget?: string;
+        modalAction: "show" | "hide";
+      };
+  text1?: React.ReactNode;
+  text2?: React.ReactNode;
+  title?: React.ReactNode;
+};
 
 /**
  * SectionCta
  *
  * @see {@link https://stndrd-coaching.design.webflow.com | Source site in Webflow}
  */
-export function SectionCta({}: SectionCtaProps) {
+export function SectionCta({
+  image1 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8f1_68a82fc786d59ffe72dd7cbe_arrow-black.svg.png",
+  image2 = "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8ed_Image.png",
+
+  link = {
+    href: "#",
+  },
+
+  text1 = "Apply in 5 minutes. If we can't help you, we'll tell you straight.",
+  text2 = "Claim Your Seat",
+  title = "Make your body match your balance sheet.",
+}: SectionCtaProps) {
   _interactions.useInteractions(_interactionsData);
 
   return (
@@ -54,12 +85,10 @@ export function SectionCta({}: SectionCtaProps) {
                       className={"text-style-allcaps offer-h3"}
                       tag={"h3"}
                     >
-                      {"Make your body match your balance sheet."}
+                      {title}
                     </Heading>
                     <Block className={"text-color-dark"} tag={"div"}>
-                      {
-                        "Apply in 5 minutes. If we can't help you, we'll tell you straight."
-                      }
+                      {text1}
                     </Block>
                   </Block>
                   <Link
@@ -67,19 +96,15 @@ export function SectionCta({}: SectionCtaProps) {
                     button={false}
                     className={"header-button"}
                     data-w-id={"cc6f60af-acb3-8d9a-ae7b-0f29c287cccc"}
-                    options={{
-                      href: "#",
-                    }}
+                    options={link}
                   >
-                    <Block tag={"div"}>{"Claim Your Seat"}</Block>
+                    <Block tag={"div"}>{text2}</Block>
                     <Block className={"btn-arrow-wrapper"} tag={"div"}>
                       <Image
                         alt={""}
                         height={"auto"}
                         loading={"lazy"}
-                        src={
-                          "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8f1_68a82fc786d59ffe72dd7cbe_arrow-black.svg.png"
-                        }
+                        src={image1}
                         width={"auto"}
                       />
                     </Block>
@@ -95,9 +120,7 @@ export function SectionCta({}: SectionCtaProps) {
                     className={"cta-image"}
                     height={"auto"}
                     loading={"lazy"}
-                    src={
-                      "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8ed_Image.png"
-                    }
+                    src={image2}
                     width={"auto"}
                   />
                 </Block>

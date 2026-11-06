@@ -3,7 +3,7 @@ import React from 'react';
 import Section from './StudioSectionBridge.tsx';
 import StudioRegistryFields from './StudioRegistryFields.tsx';
 import MobileCanvasPreview from '@/components/studio/MobileCanvasPreview.tsx';
-import { getRegistryDef, mkRegistrySection, REGISTRY_CATS, REGISTRY_PICKER_LIB, registrySampleSection, registrySectionMeta } from './registryBridge.ts';
+import { getRegistryDef, LANDING_TEMPLATE, mkLandingTemplate, mkRegistrySection, REGISTRY_CATS, REGISTRY_PICKER_LIB, registrySampleSection, registrySectionMeta } from './registryBridge.ts';
 
 const F = (k, l, t, o) => Object.assign({ k, l, t }, o || {});
 const LIB = [
@@ -350,9 +350,27 @@ export default class PageStudio extends React.Component {
     clearTimeout(this._ct); this._ct = setTimeout(() => this.setState(st => st.create ? { create: Object.assign({}, st.create, { check: 'done' }) } : null), 450);
   }
   createPage() {
-    const c = this.state.create; if (validateSlug(c.slug, this.state.pages)) return;
+    const c = this.state.create; if (!c || validateSlug(c.slug, this.state.pages)) return;
+    if (!c.name || !String(c.name).trim()) {
+      this.setState(st => ({ create: st.create ? Object.assign({}, st.create, { error: 'Enter a page name.' }) : null }));
+      return;
+    }
     const from = c.from && this.state.pages.find(p => p.id === c.from);
-    const secs = from ? clone(from.sections).map(s => Object.assign(s, { id: nid() })) : starterPage();
+    if (this.props.onCreatePage && !from) {
+      if (this.state.creating) return;
+      this.setState({ creating: true });
+      this.props.onCreatePage({ name: String(c.name).trim(), slug: c.slug, theme: c.theme }).then((result) => {
+        this.setState({ creating: false });
+        if (!result || !result.ok) {
+          this.setState(st => ({ create: st.create ? Object.assign({}, st.create, { error: (result && result.error) || 'Could not create page.' }) : null }));
+          return;
+        }
+        this.setState({ dialog: null, create: null });
+        if (this.props.onOpenPage) this.props.onOpenPage(result.id);
+      });
+      return;
+    }
+    const secs = from ? clone(from.sections).map(s => Object.assign(s, { id: nid() })) : (this.props.useRegistryPicker ? mkLandingTemplate(nid) : starterPage());
     const id = 'p' + Date.now();
     const page = { id, name: c.name || 'Untitled page', slug: c.slug, theme: c.theme, status: 'Draft', updated: 'Just now', by: 'You', sections: secs, revisions: from ? [{ n: 1, time: 'Just now', by: 'You', sections: clone(secs) }] : [] };
     this.setState(st => ({ pages: [...st.pages, page], pageId: id, screen: 'editor', sections: clone(secs), selectedId: null, undo: [], redo: [], dirty: false, dialog: null, create: null, panel: 'outline', showErrors: false }),
@@ -439,7 +457,9 @@ export default class PageStudio extends React.Component {
       const c = st.create, err = validateSlug(c.slug, st.pages), checking = c.check === 'checking';
       const from = c.from && st.pages.find(x => x.id === c.from);
       cr = {
-        title: from ? 'Duplicate page' : 'Create landing page', isDuplicate: !!from, fromName: from ? from.name : '', cta: from ? 'Duplicate page' : 'Create page',
+        title: from ? 'Duplicate page' : 'Create landing page', isDuplicate: !!from, fromName: from ? from.name : '', cta: this.state.creating ? 'Creating…' : (from ? 'Duplicate page' : 'Create page'),
+        templateNote: from ? '' : `Starts with ${LANDING_TEMPLATE.name}: ${LANDING_TEMPLATE.stack}.`,
+        error: c.error || '',
         name: c.name, slug: c.slug,
         onName: e => { const name = e.target.value; this.setCreate(c.touched ? { name } : { name, slug: slugify(name) }); },
         onSlug: e => this.setCreate({ slug: e.target.value, touched: true }),
@@ -450,7 +470,7 @@ export default class PageStudio extends React.Component {
         fullUrl: `https://www.stndrdcoach.com/${c.slug || '…'}`,
         darkBd: c.theme === 'dark' ? 'var(--color-accent)' : 'var(--color-divider)', lightBd: c.theme === 'light' ? 'var(--color-accent)' : 'var(--color-divider)',
         setDark: () => this.setState({ create: Object.assign({}, c, { theme: 'dark' }) }), setLight: () => this.setState({ create: Object.assign({}, c, { theme: 'light' }) }),
-        cannot: checking || !!err, onCreate: () => this.createPage()
+        cannot: checking || !!err || !!this.state.creating, onCreate: () => this.createPage()
       };
     }
 
@@ -618,7 +638,14 @@ export default class PageStudio extends React.Component {
       setMarketer: () => this.setState({ role: 'marketer', screen: 'dashboard', dialog: null }),
       setOperator: () => this.setState({ role: 'operator', screen: 'dashboard', dialog: null }),
       reviewCountLabel: reviewCount ? `${reviewCount} ${reviewCount === 1 ? 'page' : 'pages'} waiting for review` : 'Nothing waiting for review',
-      reviewCount: String(reviewCount), pagesView, kpis, onCreate: () => this.setState({ dialog: 'create', create: { name: '', slug: '', theme: 'dark', touched: false, from: null, check: 'done' } }),
+      reviewCount: String(reviewCount), pagesView, kpis,
+      landingTemplate: {
+        name: LANDING_TEMPLATE.name,
+        stack: LANDING_TEMPLATE.stack,
+        description: LANDING_TEMPLATE.description,
+        onStart: () => this.setState({ dialog: 'create', create: { name: '', slug: '', theme: 'dark', touched: false, from: null, check: 'done' } }),
+      },
+      onCreate: () => this.setState({ dialog: 'create', create: { name: '', slug: '', theme: 'dark', touched: false, from: null, check: 'done' } }),
       goDashboard: () => { clearInterval(this._pt); this.setState({ screen: 'dashboard', dialog: null, pageId: null }); },
       pg, dirty: st.dirty, locked, unlocked: !locked,
       lockText: p ? `Revision ${p.reviewRev} was sent on ${p.submitted}. Editing is locked until an operator publishes it or returns it to you.` : '',
@@ -660,7 +687,7 @@ export default class PageStudio extends React.Component {
 
   render() {
     const vals = { ...this.props, ...this.renderVals() };
-    const { backToOutline, canvas, canvasCaption, canvasRef, cf, closeDialog, confirmReturn, cr, dashSub, devTabs, device, dirty, dismissNote, dlgConfirm, dlgCreate, dlgIssues, dlgPublish, dlgReturn, dlgReviewSent, dlgRevisions, finishPublish, frameWidth, goDashboard, hasReturnNote, hasSections, hasToast, initials, innerWidth, isDashboard, isEditor, isMarketer, isOperator, isReview, isShell, iss, kpis, layoutB, lockText, locked, mobilePreview, noRevisions, noSections, noSelectionText, onCreate, onPreviewSelect, onRedo, onRequestReview, onReturnNote, onSave, onUndo, openPickerEnd, openRestore, openReturn, openRevisions, openUnpublish, outline, pageBg, pageCount, pagesView, pg, pickerModal, pickerPanel, pk, previewSections, previewSelectedId, pub, redoDisabled, returnDisabled, returnNote, returnNoteText, revList, reviewCount, reviewSentText, roleLabel, roleTabs, rootHeight, rv, saveDisabled, sectionCount, sel, setDesktop, setMarketer, setMobile, setOperator, shellTitle, showFields, showNoSelection, showRailOutline, showRightOutline, startPublish, theme, toast, undoDisabled, unlocked, userName, zoom } = vals;
+    const { backToOutline, canvas, canvasCaption, canvasRef, cf, closeDialog, confirmReturn, cr, dashSub, devTabs, device, dirty, dismissNote, dlgConfirm, dlgCreate, dlgIssues, dlgPublish, dlgReturn, dlgReviewSent, dlgRevisions, finishPublish, frameWidth, goDashboard, hasReturnNote, hasSections, hasToast, initials, innerWidth, isDashboard, isEditor, isMarketer, isOperator, isReview, isShell, iss, kpis, landingTemplate, layoutB, lockText, locked, mobilePreview, noRevisions, noSections, noSelectionText, onCreate, onPreviewSelect, onRedo, onRequestReview, onReturnNote, onSave, onUndo, openPickerEnd, openRestore, openReturn, openRevisions, openUnpublish, outline, pageBg, pageCount, pagesView, pg, pickerModal, pickerPanel, pk, previewSections, previewSelectedId, pub, redoDisabled, returnDisabled, returnNote, returnNoteText, revList, reviewCount, reviewSentText, roleLabel, roleTabs, rootHeight, rv, saveDisabled, sectionCount, sel, setDesktop, setMarketer, setMobile, setOperator, shellTitle, showFields, showNoSelection, showRailOutline, showRightOutline, startPublish, theme, toast, undoDisabled, unlocked, userName, zoom } = vals;
     return (
       <>
       <div style={{ position: "relative", height: rootHeight, display: "flex", flexDirection: "row", overflow: "hidden", background: "var(--color-bg)", color: "var(--color-text)", fontFamily: "var(--font-body)", fontSize: "14px" }}>
@@ -793,38 +820,37 @@ export default class PageStudio extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                    <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
+                  {isMarketer && landingTemplate && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                       <div style={{ fontSize: "10px", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: "600" }}>
-                        Performance
+                        Starter template
                       </div>
-                      <div style={{ fontSize: "12px", color: "var(--color-neutral-600)" }}>
-                        Last 30 days · live pages · vs previous 30 days
-                      </div>
-                    </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px" }}>
-                      {(kpis || []).map((k, $index) => (
-                        <React.Fragment key={k?.id ?? $index}>
-                          <div style={{ background: "var(--color-surface)", border: "1px solid var(--color-divider)", borderRadius: "10px", padding: "14px 16px", display: "flex", flexDirection: "column", gap: "6px" }}>
-                            <div style={{ fontSize: "12px", color: "var(--color-neutral-700)" }}>
-                              {k.label}
-                            </div>
-                            <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
-                              <div style={{ fontFamily: "var(--font-heading)", fontWeight: "600", fontSize: "28px", lineHeight: "1", fontVariantNumeric: "tabular-nums" }}>
-                                {k.value}
-                              </div>
-                              <div style={{ fontSize: "12px", fontWeight: "600", color: k.deltaColor }}>
-                                {k.delta}
-                              </div>
-                            </div>
-                            <div style={{ fontSize: "11px", color: "var(--color-neutral-600)" }}>
-                              {k.note}
-                            </div>
+                      <button
+                        type="button"
+                        onClick={landingTemplate.onStart}
+                        style={{ font: "inherit", textAlign: "left", cursor: "pointer", padding: "16px 18px", display: "flex", gap: "16px", alignItems: "center", background: "var(--color-surface)", border: "1px solid var(--color-divider)", color: "var(--color-text)", borderRadius: "10px" }}
+                      >
+                        <div style={{ width: "132px", height: "76px", flex: "none", borderRadius: "6px", background: "#0f0f0e", border: "1px solid var(--color-divider)", padding: "10px 8px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                          <div style={{ height: "6px", width: "70%", background: "#f4f2ec", borderRadius: "2px" }} />
+                          <div style={{ height: "4px", width: "100%", background: "#3a3a36", borderRadius: "1px" }} />
+                          <div style={{ height: "4px", width: "88%", background: "#3a3a36", borderRadius: "1px" }} />
+                          <div style={{ height: "8px", width: "36%", background: "#ffd21f", borderRadius: "2px" }} />
+                          <div style={{ height: "4px", width: "50%", background: "#2a2a26", borderRadius: "1px" }} />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "4px", minWidth: "0" }}>
+                          <div style={{ fontFamily: "var(--font-heading)", fontWeight: "600", fontSize: "16px" }}>
+                            {landingTemplate.name}
                           </div>
-                        </React.Fragment>
-                      ))}
+                          <div style={{ fontSize: "13px", color: "var(--color-neutral-700)" }}>
+                            {landingTemplate.description}
+                          </div>
+                          <div style={{ fontSize: "11px", color: "var(--color-neutral-600)" }}>
+                            {landingTemplate.stack}
+                          </div>
+                        </div>
+                      </button>
                     </div>
-                  </div>
+                  )}
                   <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                     {(pagesView || []).map((p, $index) => (
                       <React.Fragment key={p?.id ?? $index}>
@@ -929,34 +955,10 @@ export default class PageStudio extends React.Component {
                       </React.Fragment>
                     ))}
                   </div>
-                  {isMarketer && (
-                    <>
-                      <div style={{ display: "flex", alignItems: "center", gap: "16px", padding: "18px", border: "1px dashed var(--color-neutral-400)", borderRadius: "10px", background: "var(--color-neutral-200)" }}>
-                        <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: "var(--color-surface)", border: "1px solid var(--color-divider)", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-                            <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-                            <path d="M12 12v6" />
-                            <path d="M9 15h6" />
-                          </svg>
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "3px", marginRight: "auto" }}>
-                          <div style={{ fontFamily: "var(--font-heading)", fontWeight: "600", fontSize: "14px" }}>
-                            Starting a new page?
-                          </div>
-                          <div style={{ fontSize: "12px", color: "var(--color-neutral-700)" }}>
-                            Each new page opens with a header, hero, final call to action and footer, ready to edit.
-                          </div>
-                        </div>
-                        <button onClick={onCreate} style={{ padding: "8px 12px", justifyContent: "flex-start" }} className="btn btn-secondary">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M5 12h14" />
-                            <path d="m12 5 7 7-7 7" />
-                          </svg>
-                          Create page
-                        </button>
-                      </div>
-                    </>
+                  {isMarketer && !(pagesView || []).length && (
+                    <div style={{ fontSize: "13px", color: "var(--color-neutral-600)" }}>
+                      No pages yet. Use the starter template to create one.
+                    </div>
                   )}
                 </div>
               </div>
@@ -1938,6 +1940,11 @@ export default class PageStudio extends React.Component {
                       </div>
                     </>
                   )}
+                  {!cr.isDuplicate && cr.templateNote && (
+                    <div style={{ fontSize: "13px", color: "var(--color-neutral-700)" }}>
+                      {cr.templateNote}
+                    </div>
+                  )}
                 </div>
                 <div className="field">
                   <label>
@@ -1995,6 +2002,11 @@ export default class PageStudio extends React.Component {
                 <div style={{ fontSize: "12px", color: "var(--color-neutral-700)" }}>
                   The slug locks after the page is first published.
                 </div>
+                {cr.error && (
+                  <div style={{ fontSize: "13px", color: "var(--color-danger)" }}>
+                    {cr.error}
+                  </div>
+                )}
                 <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px" }}>
                   <button onClick={closeDialog} style={{ minWidth: "90px", justifyContent: "flex-start" }} className="btn btn-secondary">
                     Cancel

@@ -4,6 +4,7 @@ import {
   SECTION_LIBRARY,
   type SectionTypeDef,
 } from "@/lib/sections/registry";
+import { LANDING_TEMPLATE, LANDING_TEMPLATE_TYPES } from "@/lib/sections/starter";
 
 /** Picker rows aligned with handoff LIB shape. */
 export type RegistryPickerRow = {
@@ -59,4 +60,12 @@ export function registrySectionMeta(type: string): {
   const def = getSectionDef(type);
   if (!def) return null;
   return { name: def.name, cat: def.category };
+}
+
+export { LANDING_TEMPLATE };
+
+export function mkLandingTemplate(newId: () => string) {
+  return LANDING_TEMPLATE_TYPES.map((type) => mkRegistrySection(type, newId)).filter(
+    (section): section is NonNullable<typeof section> => section !== null,
+  );
 }

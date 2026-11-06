@@ -13,6 +13,10 @@ import { NavCoachingApply } from "@/webflow/navbar/NavCoachingApply";
 import { NavbarLogoOnly } from "@/webflow/navbar/NavbarLogoOnly";
 import { NavProtocol } from "@/webflow/navbar/NavProtocol";
 import { SectionCoach } from "@/webflow/sections2/SectionCoach";
+import { FooterRegular } from "@/webflow/FooterRegular";
+import { SectionCta } from "@/webflow/sections2/SectionCta";
+import { SectionCreators } from "@/webflow/sections2/SectionCreators";
+import { SectionExecutives } from "@/webflow/SectionExecutives";
 
 export type SectionFieldDef =
   | { key: string; label: string; type: "text"; max?: number; required?: boolean }
@@ -49,6 +53,11 @@ function linkProp(value: unknown, fallback: string) {
 function wistiaId(value: unknown, fallback: string) {
   const id = typeof value === "string" ? value.trim() : "";
   return /^[a-z0-9]+$/i.test(id) ? id : fallback;
+}
+
+function imageSrc(value: unknown, fallback: string) {
+  const src = typeof value === "string" ? value.trim() : "";
+  return src || fallback;
 }
 
 function paragraphNodes(value: unknown): ReactNode {
@@ -268,6 +277,191 @@ const HEADER_PROTOCOL: SectionTypeDef = {
   Component: HeaderProtocol as ComponentType<Record<string, unknown>>,
 };
 
+const EXEC_IMAGES = [
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f914_Frame%202147227827.png",
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f918_Frame%202147227821.png",
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f91c_Frame%202147227823.png",
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f920_Frame%2021472278321.png",
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f924_Frame%202147227824.png",
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f928_Frame%202147227822.png",
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f92c_Frame%202147227828.png",
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f930_Frame%202147227831.png",
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f934_Frame%202147227830.png",
+] as const;
+
+const SECTION_EXECUTIVES: SectionTypeDef = {
+  type: "section-executives",
+  name: "Executives",
+  description: "Headline, nine executive photos, and results caption.",
+  category: "Proof",
+  fields: [
+    { key: "title1", label: "Heading", type: "textarea", max: 160, required: true },
+    { key: "title2", label: "Caption", type: "text", max: 120, required: true },
+    { key: "image1", label: "Photo 1", type: "image" },
+    { key: "image2", label: "Photo 2", type: "image" },
+    { key: "image3", label: "Photo 3", type: "image" },
+    { key: "image4", label: "Photo 4", type: "image" },
+    { key: "image5", label: "Photo 5", type: "image" },
+    { key: "image6", label: "Photo 6", type: "image" },
+    { key: "image7", label: "Photo 7", type: "image" },
+    { key: "image8", label: "Photo 8", type: "image" },
+    { key: "image9", label: "Photo 9", type: "image" },
+  ],
+  defaultProps: () => ({
+    title1: "Real executives. \nReal numbers. 12 months.",
+    title2: "Results In as Little as The First 6 Weeks",
+    image1: EXEC_IMAGES[0],
+    image2: EXEC_IMAGES[1],
+    image3: EXEC_IMAGES[2],
+    image4: EXEC_IMAGES[3],
+    image5: EXEC_IMAGES[4],
+    image6: EXEC_IMAGES[5],
+    image7: EXEC_IMAGES[6],
+    image8: EXEC_IMAGES[7],
+    image9: EXEC_IMAGES[8],
+  }),
+  toDevLinkProps: (props) => ({
+    title1: lineBreakNodes(props.title1),
+    title2: props.title2,
+    image1: imageSrc(props.image1, EXEC_IMAGES[0]),
+    image2: imageSrc(props.image2, EXEC_IMAGES[1]),
+    image3: imageSrc(props.image3, EXEC_IMAGES[2]),
+    image4: imageSrc(props.image4, EXEC_IMAGES[3]),
+    image5: imageSrc(props.image5, EXEC_IMAGES[4]),
+    image6: imageSrc(props.image6, EXEC_IMAGES[5]),
+    image7: imageSrc(props.image7, EXEC_IMAGES[6]),
+    image8: imageSrc(props.image8, EXEC_IMAGES[7]),
+    image9: imageSrc(props.image9, EXEC_IMAGES[8]),
+  }),
+  Component: SectionExecutives as ComponentType<Record<string, unknown>>,
+};
+
+const CREATOR_IMAGES = [
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8f4_Image%20Container1.png",
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8fa_Image%20Container3.png",
+] as const;
+
+const SECTION_CREATORS: SectionTypeDef = {
+  type: "section-creators",
+  name: "Creators",
+  description: "Justin and Chris bios with photos and quote.",
+  category: "Proof",
+  fields: [
+    { key: "title1", label: "Heading", type: "textarea", max: 160, required: true },
+    { key: "image1", label: "Justin photo", type: "image" },
+    { key: "title2", label: "Justin name", type: "text", max: 80, required: true },
+    { key: "text3", label: "Justin role", type: "text", max: 40, required: true },
+    { key: "text4", label: "Justin bio", type: "textarea", max: 800, required: true },
+    { key: "text1", label: "Quote", type: "textarea", max: 200, required: true },
+    { key: "text2", label: "Quote name", type: "text", max: 80, required: true },
+    { key: "image2", label: "Chris photo", type: "image" },
+    { key: "title3", label: "Chris name", type: "text", max: 80, required: true },
+    { key: "text5", label: "Chris role", type: "text", max: 40, required: true },
+    { key: "text6", label: "Chris bio", type: "textarea", max: 800, required: true },
+  ],
+  defaultProps: () => ({
+    title1: "Meet the Creators of the Higher Standard Transformation System",
+    image1: CREATOR_IMAGES[0],
+    title2: "justin king",
+    text3: "Co Founder",
+    text4:
+      'Justin is becoming known as the person you go to when you want "life transformative results". The STNDRD Coaching System is his brain child - a mix of 100\'s of years of experience, contextualized into the most result producing, high performer transformation system in the world. He\'s been trusted by 1,000\'s to deliver such results, 100+ pro athletes, and his goal is to continue shaping the cultural shift to create better and stronger men who\'s standard they build in the gym, bleed over into every area o their lives.',
+    text1: "Justin is one of one in this space.",
+    text2: "Chris Bumstead",
+    image2: CREATOR_IMAGES[1],
+    title3: "Chris Bumstead",
+    text5: "Co Founder",
+    text6:
+      "Chris is the total embodiment of a high performer who seemingly carries the world on his shoulders. A husband, father, owner of a robust 9 figure portfolio, endless travel and event calendar - and on top of all of that, a X6 Mr. Olympia Champion, Chris has built a framework that proves you can have the mind, the body, the family, the output, and the success! All by a singular system of raising your standard and refusing to slide backwards into comfort. He believes this framework will change a generation of men and all it takes is showing up.",
+  }),
+  toDevLinkProps: (props) => ({
+    title1: props.title1,
+    image1: imageSrc(props.image1, CREATOR_IMAGES[0]),
+    title2: props.title2,
+    text3: props.text3,
+    text4: props.text4,
+    text1: props.text1,
+    text2: props.text2,
+    image2: imageSrc(props.image2, CREATOR_IMAGES[1]),
+    title3: props.title3,
+    text5: props.text5,
+    text6: props.text6,
+  }),
+  Component: SectionCreators as ComponentType<Record<string, unknown>>,
+};
+
+const CTA_IMAGE =
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8ed_Image.png";
+const CTA_ARROW =
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8f1_68a82fc786d59ffe72dd7cbe_arrow-black.svg.png";
+
+const SECTION_CTA: SectionTypeDef = {
+  type: "section-cta",
+  name: "CTA",
+  description: "Headline, body, apply button, and photo.",
+  category: "CTA",
+  fields: [
+    { key: "title", label: "Heading", type: "text", max: 160, required: true },
+    { key: "text1", label: "Body", type: "textarea", max: 400, required: true },
+    { key: "text2", label: "Button label", type: "text", max: 40, required: true },
+    { key: "applyUrl", label: "Button link", type: "text", required: true },
+    { key: "image2", label: "Photo", type: "image" },
+  ],
+  defaultProps: () => ({
+    title: "Make your body match your balance sheet.",
+    text1: "Apply in 5 minutes. If we can't help you, we'll tell you straight.",
+    text2: "Claim Your Seat",
+    applyUrl: "#",
+    image2: CTA_IMAGE,
+  }),
+  toDevLinkProps: (props) => ({
+    title: props.title,
+    text1: props.text1,
+    text2: props.text2,
+    link: linkProp(props.applyUrl, "#"),
+    image1: CTA_ARROW,
+    image2: imageSrc(props.image2, CTA_IMAGE),
+  }),
+  Component: SectionCta as ComponentType<Record<string, unknown>>,
+};
+
+const FOOTER_LOGO =
+  "https://cdn.prod.website-files.com/68a822ab60d65fba371458e2/69f901e10e59383c6d47f8ea_STNDRD%20COACHING%201.svg";
+
+const FOOTER_REGULAR: SectionTypeDef = {
+  type: "footer-regular",
+  name: "Footer",
+  description: "Logo, privacy, terms, and copyright.",
+  category: "Footer",
+  fields: [
+    { key: "image", label: "Logo", type: "image" },
+    { key: "privacyLabel", label: "Privacy label", type: "text", max: 40, required: true },
+    { key: "privacyUrl", label: "Privacy link", type: "text", required: true },
+    { key: "termsLabel", label: "Terms label", type: "text", max: 40, required: true },
+    { key: "termsUrl", label: "Terms link", type: "text", required: true },
+    { key: "copyright", label: "Copyright", type: "text", max: 80, required: true },
+  ],
+  defaultProps: () => ({
+    image: FOOTER_LOGO,
+    privacyLabel: "Privacy policy",
+    privacyUrl: "/privacy-policy",
+    termsLabel: "Terms & Conditions",
+    termsUrl: "/terms-conditions",
+    copyright: "© 2026 STNRD APP LLC",
+  }),
+  toDevLinkProps: (props) => ({
+    image: imageSrc(props.image, FOOTER_LOGO),
+    text1: "Careers",
+    link1: { href: "#" },
+    text2: props.privacyLabel,
+    link2: linkProp(props.privacyUrl, "/privacy-policy"),
+    text3: props.termsLabel,
+    link3: linkProp(props.termsUrl, "/terms-conditions"),
+    text4: props.copyright,
+  }),
+  Component: FooterRegular as ComponentType<Record<string, unknown>>,
+};
+
 /** Add new DevLink sections here one at a time. */
 export const SECTION_REGISTRY: Record<string, SectionTypeDef> = {
   [SECTION_COACH.type]: SECTION_COACH,
@@ -277,6 +471,10 @@ export const SECTION_REGISTRY: Record<string, SectionTypeDef> = {
   [HEADER_OFFER.type]: HEADER_OFFER,
   [HEADER_PRECALL.type]: HEADER_PRECALL,
   [HEADER_PROTOCOL.type]: HEADER_PROTOCOL,
+  [SECTION_EXECUTIVES.type]: SECTION_EXECUTIVES,
+  [SECTION_CREATORS.type]: SECTION_CREATORS,
+  [SECTION_CTA.type]: SECTION_CTA,
+  [FOOTER_REGULAR.type]: FOOTER_REGULAR,
 };
 
 export const SECTION_LIBRARY: SectionTypeDef[] = Object.values(SECTION_REGISTRY);

@@ -42,7 +42,8 @@ function isDevLinkSection(type: string): boolean {
   return (
     type.startsWith("section-") ||
     type.startsWith("nav-") ||
-    type.startsWith("header-")
+    type.startsWith("header-") ||
+    type.startsWith("footer-")
   );
 }
 

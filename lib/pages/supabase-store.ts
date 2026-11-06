@@ -61,6 +61,8 @@ async function seedDatabaseIfEmpty(): Promise<void> {
     updated_at: now,
   }));
 
+  if (!rows.length) return;
+
   const { error } = await supabase.from("pages").insert(rows);
   if (error) supabaseQueryError("Supabase seed insert", error.message);
 }
